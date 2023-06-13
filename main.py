@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 import uvicorn
 app = FastAPI()
 
@@ -23,8 +23,7 @@ async def multiplication(num1: float, num2: float):
 
 @app.get("/division")
 async def division(num1: float, num2: float):
-    try:
+    if not num2==0:
         result = (num1 / num2)
         return {"Division of two number is": result}
-    except ZeroDivisionError:
-        print("Error:division by zero")
+   raise HTTPException(status_code=404, detail="wrong division")
